@@ -1,0 +1,89 @@
+[gd_scene load_steps=2 format=3 uid="uid://tq1ftj6i44qk"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8fn0s"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.41, 0.41, 0.41, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_8fn0s")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/HBoxContainer"]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+theme_override_constants/separation = 9
+alignment = 1
+
+[node name="Label" type="Label" parent="Panel/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 56
+text = "Registre-se"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="Panel/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "  E-mail"
+
+[node name="LineEdit" type="LineEdit" parent="Panel/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="Panel/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "  Senha"
+
+[node name="LineEdit2" type="LineEdit" parent="Panel/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label4" type="Label" parent="Panel/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "  Confirmar senha"
+
+[node name="LineEdit3" type="LineEdit" parent="Panel/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 27
+
+[node name="Button" type="Button" parent="Panel/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Voltar"
+
+[node name="Button2" type="Button" parent="Panel/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Registrar"
