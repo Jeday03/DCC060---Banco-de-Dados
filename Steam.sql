@@ -1,106 +1,146 @@
-CREATE TABLE Pais (
+CREATE TABLE pais (
     id_pais INT PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL
+    nome VARCHAR(100) NOT NULL,
+    porcentagem_imposto DECIMAL(5,2) NOT NULL
+    simbolo_moeda VARCHAR(10) NOT NULL
+    razao_cambio DECIMAL(10,4) NOT NULL
 );
 
 
-CREATE TABLE Usuario (
+CREATE TABLE usuario (
     id_usuario INT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
     id_pais INT NOT NULL,
-    FOREIGN KEY (id_pais) REFERENCES Pais(id_pais)
+    nickname VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    senha VARCHAR(255) NOT NULL,
+    FOREIGN KEY (id_pais) REFERENCES pais(id_pais)
 );
 
 
-CREATE TABLE Consumidor (
+CREATE TABLE consumidor (
     id_consumidor INT PRIMARY KEY,
     id_usuario INT NOT NULL UNIQUE,
-    FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario)
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
 );
 
 
-CREATE TABLE Desenvolvedora (
+CREATE TABLE desenvolvedora (
     id_desenvolvedora INT PRIMARY KEY,
     id_usuario INT NOT NULL UNIQUE,
-    FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario)
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
 );
 
 
-CREATE TABLE Publicadora (
+CREATE TABLE publicadora (
     id_publicadora INT PRIMARY KEY,
     id_usuario INT NOT NULL UNIQUE,
-    FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario)
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
 );
 
 
-CREATE TABLE MetodoPagamento (
-    id_metodo_pagamento INT PRIMARY KEY,
-    tipo VARCHAR(50) NOT NULL
+CREATE TABLE metodo_pagamento (
+    id_consumidor INT NOT NULL,
+    apelido VARCHAR(50) NOT NULL,
+    FOREIGN KEY (id_consumidor) REFERENCES consumidor(id_consumidor),
 );
 
+CREATE TABLE pagamento_cartao_credito (
+    id_metodo_pagamento INT NOT NULL UNIQUE,
+    numero_cartao VARCHAR(20) NOT NULL,
+    nome_titular VARCHAR(100) NOT NULL,
+    data_validade DATE NOT NULL,
+    codigo_seguranca VARCHAR(4) NOT NULL,
+    FOREIGN KEY (id_metodo_pagamento) REFERENCES metodo_pagamento(id_metodo_pagamento)
+);
 
-CREATE TABLE MetodoRecebimento (
+CREATE TABLE pagamento_boleto (
+    id_metodo_pagamento INT NOT NULL UNIQUE,
+    numero_boleto VARCHAR(20) NOT NULL,
+    data_vencimento DATE NOT NULL,
+    FOREIGN KEY (id_metodo_pagamento) REFERENCES metodo_pagamento(id_metodo_pagamento)
+);
+
+CREATE TABLE pagamento_pix (
+    id_metodo_pagamento INT NOT NULL UNIQUE,
+    chave_pix VARCHAR(50) NOT NULL,
+    FOREIGN KEY (id_metodo_pagamento) REFERENCES metodo_pagamento(id_metodo_pagamento)
+);
+
+--Tá certo isso aqui? Não seria em conjunto com a tabela de Publicadora?
+CREATE TABLE metodo_recebimento (
     id_metodo_recebimento INT PRIMARY KEY,
     tipo VARCHAR(50) NOT NULL
 );
 
+CREATE TABLE recebimento_banco (
+    id_metodo_recebimento INT NOT NULL UNIQUE,
+    numero_conta VARCHAR(20) NOT NULL,
+    agencia VARCHAR(10) NOT NULL,
+    FOREIGN KEY (id_metodo_recebimento) REFERENCES metodo_recebimento(id_metodo_recebimento)
+);
 
-CREATE TABLE Jogo (
+CREATE TABLE recebimento_pix (
+    id_metodo_recebimento INT NOT NULL UNIQUE,
+    chave_pix VARCHAR(50) NOT NULL,
+    FOREIGN KEY (id_metodo_recebimento) REFERENCES metodo_recebimento(id_metodo_recebimento)
+);
+
+CREATE TABLE jogo (
     id_jogo INT PRIMARY KEY,
     titulo VARCHAR(200) NOT NULL,
-    preco DECIMAL(10,2) NOT NULL,
+    preco_dolar DECIMAL(10,2) NOT NULL,
+    foto_capa VARCHAR(255) NOT NULL, -- Caminho para a imagem da capa do jogo
     id_desenvolvedora INT NOT NULL,
     id_publicadora INT,
-    FOREIGN KEY (id_desenvolvedora) REFERENCES Desenvolvedora(id_desenvolvedora),
-    FOREIGN KEY (id_publicadora) REFERENCES Publicadora(id_publicadora)
+    FOREIGN KEY (id_desenvolvedora) REFERENCES desenvolvedora(id_desenvolvedora),
+    FOREIGN KEY (id_publicadora) REFERENCES publicadora(id_publicadora)
 );
 
 
-CREATE TABLE Compra (
-    id_compra INT PRIMARY KEY,
+CREATE TABLE jogo_comprado (
+    id_jogo_comprado INT PRIMARY KEY,
     id_consumidor INT NOT NULL,
     id_jogo INT NOT NULL,
-    id_metodo_pagamento INT NOT NULL,
+    --id_metodo_pagamento INT NOT NULL,
     data_compra DATE NOT NULL,
-    FOREIGN KEY (id_consumidor) REFERENCES Consumidor(id_consumidor),
-    FOREIGN KEY (id_jogo) REFERENCES Jogo(id_jogo),
-    FOREIGN KEY (id_metodo_pagamento) REFERENCES MetodoPagamento(id_metodo_pagamento)
+    FOREIGN KEY (id_consumidor) REFERENCES consumidor(id_consumidor),
+    FOREIGN KEY (id_jogo) REFERENCES jogo(id_jogo),
+    FOREIGN KEY (id_metodo_pagamento) REFERENCES metodo_pagamento(id_metodo_pagamento)
 );
 
 
-CREATE TABLE Conquista (
+CREATE TABLE conquista (
     id_conquista INT PRIMARY KEY,
     nome VARCHAR(200) NOT NULL,
     descricao TEXT
 );
 
-
-CREATE TABLE Consumidor_Conquista (
-    id_consumidor INT NOT NULL,
+CREATE TABLE jogo_comprado_conquista (
+    id_jogo_comprado INT NOT NULL,
     id_conquista INT NOT NULL,
-    PRIMARY KEY (id_consumidor, id_conquista),
-    FOREIGN KEY (id_consumidor) REFERENCES Consumidor(id_consumidor),
-    FOREIGN KEY (id_conquista) REFERENCES Conquista(id_conquista)
+    PRIMARY KEY (id_jogo_comprado, id_conquista),
+    FOREIGN KEY (id_consumidor) REFERENCES consumidor(id_consumidor),
+    FOREIGN KEY (id_conquista) REFERENCES conquista(id_conquista)
 );
 
 
-CREATE TABLE Comentario (
-    id_comentario INT PRIMARY KEY,
+CREATE TABLE comentario (
     id_consumidor INT NOT NULL,
     id_jogo INT NOT NULL,
     texto TEXT NOT NULL,
     data_comentario DATE NOT NULL,
-    FOREIGN KEY (id_consumidor) REFERENCES Consumidor(id_consumidor),
-    FOREIGN KEY (id_jogo) REFERENCES Jogo(id_jogo)
+    PRIMARY KEY (id_consumidor, id_jogo), -- Chave primária composta para impedir 2 comentários do mesmo consumidor no mesmo jogo
+    FOREIGN KEY (id_consumidor) REFERENCES consumidor(id_consumidor),
+    FOREIGN KEY (id_jogo) REFERENCES jogo(id_jogo)
 );
 
-
-CREATE TABLE Recebimento (
+CREATE TABLE recebimento (
     id_recebimento INT PRIMARY KEY,
     id_publicadora INT NOT NULL,
     id_metodo_recebimento INT NOT NULL,
     data_recebimento DATE NOT NULL,
     valor DECIMAL(10,2) NOT NULL,
-    FOREIGN KEY (id_publicadora) REFERENCES Publicadora(id_publicadora),
-    FOREIGN KEY (id_metodo_recebimento) REFERENCES MetodoRecebimento(id_metodo_recebimento)
+    FOREIGN KEY (id_publicadora) REFERENCES publicadora(id_publicadora),
+    FOREIGN KEY (id_metodo_recebimento) REFERENCES metodo_recebimento(id_metodo_recebimento)
 );
