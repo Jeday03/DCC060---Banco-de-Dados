@@ -2,7 +2,7 @@ CREATE TABLE pais (
     id_pais INT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
     porcentagem_imposto DECIMAL(5,2) NOT NULL,
-    simbolo_moeda VARCHAR(10) NOT NULL
+    simbolo_moeda VARCHAR(10) NOT NULL,
     razao_cambio DECIMAL(10,4) NOT NULL
 );
 
@@ -68,8 +68,6 @@ CREATE TABLE pagamento_pix (
     FOREIGN KEY (id_metodo_pagamento) REFERENCES metodo_pagamento(id_metodo_pagamento)
 );
 
---Tá certo isso aqui? Não seria em conjunto com a tabela de Publicadora?
--- Acho que ta, pq é um relacionamento N:N entre Publicadora e Método de Recebimento né? Aí cada uma tem q ter sua tabela
 CREATE TABLE metodo_recebimento (
     id_metodo_recebimento INT PRIMARY KEY,
     tipo VARCHAR(50) NOT NULL
@@ -148,3 +146,7 @@ CREATE TABLE recebimento (
     FOREIGN KEY (id_publicadora) REFERENCES publicadora(id_publicadora),
     FOREIGN KEY (id_metodo_recebimento) REFERENCES metodo_recebimento(id_metodo_recebimento)
 );
+
+--Tá certo isso aqui? Não seria em conjunto com a tabela de Publicadora?
+-- Acho que ta, pq é um relacionamento N:N entre Publicadora e Método de Recebimento né? Aí cada uma tem q ter sua tabela
+-- Joguei pro final pq o neon é bugado e não deixava criar a tabela se tiver comentario antes
