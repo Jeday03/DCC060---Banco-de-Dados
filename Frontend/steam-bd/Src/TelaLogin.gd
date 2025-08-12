@@ -1,11 +1,13 @@
 extends VBoxContainer
 
 const TELA_REGISTRO = preload("uid://tq1ftj6i44qk")
+const APLICACAO = preload("uid://bvqec7yaqmxpy")
 
 const url = ""
 
 @onready var email: LineEdit = $LineEdit
 @onready var senha: LineEdit = $LineEdit2
+@onready var msg: Label = $msg
 
 func registrar_pressed() -> void:
 	SceneController.changeSceneTo(TELA_REGISTRO, "Diamond", "Diamond")
@@ -19,7 +21,8 @@ func login_pressed() -> void:
 
 func httpRetorno(result, code, headers, body):
 	if code == 200:
+		SceneController.changeSceneTo(APLICACAO)
 		print("Login executado com sucesso")
 	else:
-		print("Algo deu errado")
+		msg.visible = true
 	pass
