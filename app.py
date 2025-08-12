@@ -43,25 +43,6 @@ def list_games():
         return jsonify(data)
 
 # ===========================
-# Retorna as informações detalhadas de um jogo específico
-# ===========================
-@app.get("/games/<int:id_jogo>")
-def get_game(id_jogo):
-    with pool.connection() as conn, conn.cursor() as cur:
-        cur.execute("""
-            SELECT j.id_jogo, j.titulo, j.preco_dolar, j.foto_capa,
-                   d.id_desenvolvedora, p.id_publicadora
-            FROM jogo j
-            JOIN desenvolvedora d ON d.id_desenvolvedora = j.id_desenvolvedora
-            LEFT JOIN publicadora p ON p.id_publicadora = j.id_publicadora
-            WHERE j.id_jogo = %s;
-        """, (id_jogo,))
-        row = cur.fetchone()
-        if not row:
-            return jsonify({"error": "Jogo não encontrado"}), 404
-        return jsonify(row_to_dict(cur, row))
-
-# ===========================
 # Cria um novo usuário no sistema e opcionalmente já o cadastra como consumidor
 # ===========================
 @app.post("/users")
@@ -141,6 +122,40 @@ def consumer_login():
         if not row:
             return jsonify({"error": "Credenciais inválidas ou usuário não é consumidor"}), 401
         return jsonify(row_to_dict(cur, row))
+
+# ===========================
+# Retorna os jogos que os amigos de um usuário possuem
+# ===========================
+@app.get("/users/<int:id_usuario>/friends/games")
+def get_friends_games(id_usuario):
+    with pool.connection() as conn, conn.cursor() as cur:
+        # Primeiro verifica se o usuário existe
+        cur.execute("SELECT 1 FROM usuario WHERE id_usuario = %s;", (id_usuario,))
+        if not cur.fetchone():
+            return jsonify({"error": "Usuário não encontrado"}), 404
+        
+        cur.execute("""
+            SELECT DISTINCT j.id_jogo, j.titulo, j.preco_dolar, j.foto_capa,
+                   u_amigo.id_usuario as id_amigo, u_amigo.nickname as nickname_amigo,
+                   jc.data_compra
+            FROM amizade a
+            -- Pega amigos do usuário (pode ser em qualquer direção na tabela amizade)
+            JOIN usuario u_amigo ON (
+                (a.id_usuario1 = %s AND u_amigo.id_usuario = a.id_usuario2) OR 
+                (a.id_usuario2 = %s AND u_amigo.id_usuario = a.id_usuario1)
+            )
+            -- Pega o consumidor do amigo
+            JOIN consumidor c_amigo ON c_amigo.id_usuario = u_amigo.id_usuario
+            -- Pega os jogos comprados pelo amigo
+            JOIN jogo_comprado jc ON jc.id_consumidor = c_amigo.id_consumidor
+            JOIN jogo j ON j.id_jogo = jc.id_jogo
+            ORDER BY u_amigo.nickname, j.titulo;
+        """, (id_usuario, id_usuario))
+        
+        rows = cur.fetchall()
+        cols = [d[0] for d in cur.description]
+        data = [dict(zip(cols, r)) for r in rows]
+        return jsonify(data)
 
 # ===========================
 # Registra a compra de um jogo por um consumidor, calculando o valor final com conversão e imposto

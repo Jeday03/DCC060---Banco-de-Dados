@@ -8,3 +8,6 @@ var nickname : String
 var id_pais : int
 var simbolo_montario : StringName
 var cambio : float
+
+func abrirPagina(id_jogo):
+	NetworkManager.make_request()

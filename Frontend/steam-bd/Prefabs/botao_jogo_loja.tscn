@@ -48,6 +48,12 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 60
 text = "Nome do jogo"
 
+[node name="Label2" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "AMIGINHO"
+vertical_alignment = 2
+
 [node name="Label" type="Label" parent="."]
 layout_mode = 1
 anchors_preset = 3
@@ -64,3 +70,5 @@ grow_vertical = 0
 theme_override_font_sizes/font_size = 21
 text = "R$ 10,00"
 horizontal_alignment = 2
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]

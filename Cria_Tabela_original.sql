@@ -6,7 +6,6 @@ CREATE TABLE pais (
     razao_cambio DECIMAL(10,4) NOT NULL
 );
 
-
 CREATE TABLE usuario (
     id_usuario INT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
@@ -145,6 +144,14 @@ CREATE TABLE recebimento (
     valor DECIMAL(10,2) NOT NULL,
     FOREIGN KEY (id_publicadora) REFERENCES publicadora(id_publicadora),
     FOREIGN KEY (id_metodo_recebimento) REFERENCES metodo_recebimento(id_metodo_recebimento)
+);
+
+CREATE TABLE amizade (
+    id_usuario1 INT NOT NULL,
+    id_usuario2 INT NOT NULL,
+    PRIMARY KEY (id_usuario1, id_usuario2),
+    FOREIGN KEY (id_usuario1) REFERENCES usuario(id_usuario),
+    FOREIGN KEY (id_usuario2) REFERENCES usuario(id_usuario)
 );
 
 --Tá certo isso aqui? Não seria em conjunto com a tabela de Publicadora?
