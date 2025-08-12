@@ -9,6 +9,20 @@ def row_to_dict(cursor, row):
     cols = [desc[0] for desc in cursor.description]
     return dict(zip(cols, row))
 
+
+@app.get("/pais/<int:id_pais>")
+def get_country(id_pais):
+    with pool.connection() as conn, conn.cursor() as cur:
+        cur.execute("""
+            SELECT id_pais, nome, razao_cambio, porcentagem_imposto, simbolo_moeda
+            FROM pais
+            WHERE id_pais = %s;
+        """, (id_pais,))
+        row = cur.fetchone()
+        if not row:
+            return jsonify({"error": "País não encontrado"}), 404
+        return jsonify(row_to_dict(cur, row))
+
 # ===========================
 # Retorna uma lista com todos os jogos cadastrados, incluindo desenvolvedora e publicadora
 # ===========================
@@ -106,9 +120,44 @@ def login():
             return jsonify({"error": "Credenciais inválidas"}), 401
         return jsonify(row_to_dict(cur, row))
 
+@app.post("/consumer-login")
+def consumer_login():
+    data = request.get_json(force=True)
+    email = data.get("email")
+    senha = data.get("senha")
+    if not email or not senha:
+        return jsonify({"error": "email e senha são obrigatórios"}), 400
+
+    with pool.connection() as conn, conn.cursor() as cur:
+        cur.execute("""
+            SELECT c.id_consumidor, u.id_usuario, u.nome, u.nickname, 
+                   u.email, u.id_pais, p.nome as nome_pais, p.simbolo_moeda, p.razao_cambio
+            FROM consumidor c
+            JOIN usuario u ON u.id_usuario = c.id_usuario
+            JOIN pais p ON p.id_pais = u.id_pais
+            WHERE u.email = %s AND u.senha = %s;
+        """, (email, senha))
+        row = cur.fetchone()
+        if not row:
+            return jsonify({"error": "Credenciais inválidas ou usuário não é consumidor"}), 401
+        return jsonify(row_to_dict(cur, row))
+
 # ===========================
 # Registra a compra de um jogo por um consumidor, calculando o valor final com conversão e imposto
 # ===========================
+@app.get("/jogos")
+def list_all_games():
+    with pool.connection() as conn, conn.cursor() as cur:
+        cur.execute("""
+            SELECT j.id_jogo, j.titulo, j.preco_dolar, j.foto_capa
+            FROM jogo j
+            ORDER BY j.titulo;
+        """)
+        rows = cur.fetchall()
+        cols = [d[0] for d in cur.description]
+        data = [dict(zip(cols, r)) for r in rows]
+        return jsonify(data)
+
 @app.post("/purchases")
 def purchase_game():
     """

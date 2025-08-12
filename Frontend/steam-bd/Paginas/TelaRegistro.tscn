@@ -55,6 +55,14 @@ theme_override_font_sizes/font_size = 56
 text = "Registre-se"
 horizontal_alignment = 1
 
+[node name="Label6" type="Label" parent="Panel/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = " Seu nome"
+
+[node name="LineEdit5" type="LineEdit" parent="Panel/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
 [node name="Label2" type="Label" parent="Panel/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
@@ -86,6 +94,20 @@ text = " Seu nickname"
 
 [node name="LineEdit4" type="LineEdit" parent="Panel/HBoxContainer/VBoxContainer"]
 layout_mode = 2
+
+[node name="Label7" type="Label" parent="Panel/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = " Seu país"
+
+[node name="OptionButton" type="OptionButton" parent="Panel/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+selected = 0
+item_count = 2
+popup/item_0/text = "Brasil"
+popup/item_0/id = 1
+popup/item_1/text = "EUA"
+popup/item_1/id = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Panel/HBoxContainer/VBoxContainer"]
 layout_mode = 2

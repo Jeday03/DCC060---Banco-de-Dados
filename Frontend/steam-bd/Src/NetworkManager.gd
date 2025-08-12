@@ -33,3 +33,24 @@ func _process_queue():
 			req_data.method,
 			req_data.body
 		)
+		
+func returnData(body):
+	var response_text = body.get_string_from_utf8()
+	var response_data = JSON.parse_string(response_text)
+	return response_data
+
+func returnDataArray(body):
+	var response_text = body.get_string_from_utf8()
+	var response_data = JSON.parse_string(response_text)
+
+	# Verifica se o parse foi bem-sucedido
+	if response_data == null:
+		print("Erro: Falha ao fazer parse do JSON")
+		return []
+
+	# Verifica se é um array
+	if response_data is Array:
+		return response_data
+	else:
+		print("Erro: Resposta não é um array. Tipo recebido: ", typeof(response_data))
+		return []

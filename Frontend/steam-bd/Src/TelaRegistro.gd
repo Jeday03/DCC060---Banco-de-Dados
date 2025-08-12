@@ -5,11 +5,13 @@ const TELA_LOGIN = preload("uid://duh5maitd0kw2")
 @onready var senha: LineEdit = $LineEdit2
 @onready var senha2: LineEdit = $LineEdit3
 @onready var nickname: LineEdit = $LineEdit4
+@onready var pais: OptionButton = $OptionButton
+@onready var nome: LineEdit = $LineEdit5
 
 @onready var boa_mensagem: Label = $BoaMensagem
 @onready var ruim_mensagem: Label = $RuimMensagem
 
-const url = ""
+const url = "http://127.0.0.1:5000/users"
 
 func voltar_pressed() -> void:
 	SceneController.changeSceneTo(TELA_LOGIN)
@@ -23,16 +25,21 @@ func cadastro_pressed() -> void:
 	var body = {
 		"email": email.text,
 		"senha": senha.text,
-		"nickname": nickname.text
+		"nickname": nickname.text,
+		"id_pais": pais.get_selected_id(),
+		"nome": nome.text
 	}
-	NetworkManager.make_request(url, callback, HTTPClient.METHOD_PUT, ["Content-Type: application/json"], body)
+
+	var json_string = JSON.stringify(body)
+
+	NetworkManager.make_request(url, callback, HTTPClient.METHOD_POST, ["Content-Type: application/json"], json_string)
 	pass # Replace with function body.
 
 func callback(result, response_code, headers, body):
-	if response_code == 200:
+	if response_code == 201:
 		boa_mensagem.visible = true
 		var clock = get_tree().create_timer(1)
 		await clock.timeout
 		SceneController.changeSceneTo(TELA_LOGIN)
 	else:
-		ruim_mensagem.visinle = true
+		ruim_mensagem.visible = true

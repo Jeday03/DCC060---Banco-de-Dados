@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 Cortina="*res://Addon/TransicaoDeCenas/TransicaoCena.tscn"
 SceneController="*res://Addon/TransicaoDeCenas/SceneController.gd"
 NetworkManager="*res://Src/NetworkManager.gd"
+Controller="*res://Src/Controller.gd"
 
 [rendering]
 

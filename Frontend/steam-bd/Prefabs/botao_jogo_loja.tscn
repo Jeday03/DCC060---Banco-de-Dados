@@ -1,5 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://cdwg6ryp5yp3i"]
+[gd_scene load_steps=4 format=3 uid="uid://cdwg6ryp5yp3i"]
 
+[ext_resource type="Script" uid="uid://dukoccwmo1216" path="res://Src/botao_jogo_loja.gd" id="1_hk5y6"]
 [ext_resource type="Texture2D" uid="uid://cyurr47bhx7su" path="res://icon.svg" id="1_ymccy"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6gacm"]
@@ -16,7 +17,10 @@ corner_detail = 5
 
 [node name="BotaoJogoLoja" type="Button"]
 custom_minimum_size = Vector2(0, 104.645)
+offset_right = 818.0
+offset_bottom = 104.645
 theme_override_styles/normal = SubResource("StyleBoxFlat_6gacm")
+script = ExtResource("1_hk5y6")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
