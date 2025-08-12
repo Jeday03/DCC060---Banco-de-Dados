@@ -1,8 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://bvqec7yaqmxpy"]
+[gd_scene load_steps=9 format=3 uid="uid://bvqec7yaqmxpy"]
 
 [ext_resource type="Theme" uid="uid://ddyultgdawo4w" path="res://MainTheme.tres" id="1_7aqto"]
 [ext_resource type="Theme" uid="uid://dq5r5v3vdfy3j" path="res://SecondTheme.tres" id="2_i6r1v"]
 [ext_resource type="PackedScene" uid="uid://cdwg6ryp5yp3i" path="res://Prefabs/botao_jogo_loja.tscn" id="2_ko61b"]
+[ext_resource type="FontFile" uid="uid://dectpox5oqu1v" path="res://Fontes/CABRISA.otf" id="4_88ykg"]
+[ext_resource type="PackedScene" uid="uid://c8aplugm1rl8w" path="res://Prefabs/panel_compra_jogo.tscn" id="4_i6r1v"]
+[ext_resource type="FontFile" uid="uid://ckyoty6vujyt5" path="res://Fontes/Roboto-Black.ttf" id="6_5dmym"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4wtlq"]
 content_margin_left = 0.0
@@ -54,21 +57,38 @@ offset_bottom = 1.664978
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_7aqto")
-current_tab = 1
+current_tab = 0
 clip_tabs = false
 
-[node name="Loja" type="TabContainer" parent="TabContainer"]
-visible = false
+[node name="Loja" type="Control" parent="TabContainer"]
 layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="LojaPrincipal" type="Control" parent="TabContainer/Loja"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PrincipalTab" type="TabContainer" parent="TabContainer/Loja/LojaPrincipal"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 26.0
+grow_horizontal = 2
+grow_vertical = 2
 theme = ExtResource("2_i6r1v")
 current_tab = 0
-metadata/_tab_index = 0
 
-[node name="Principal" type="Panel" parent="TabContainer/Loja"]
+[node name="Principal" type="Panel" parent="TabContainer/Loja/LojaPrincipal/PrincipalTab"]
 layout_mode = 2
 metadata/_tab_index = 0
 
-[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Loja/Principal"]
+[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Loja/LojaPrincipal/PrincipalTab/Principal"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -80,38 +100,38 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="ScrollContainer" type="ScrollContainer" parent="TabContainer/Loja/Principal/MarginContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="TabContainer/Loja/LojaPrincipal/PrincipalTab/Principal/MarginContainer"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Loja/Principal/MarginContainer/ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Loja/LojaPrincipal/PrincipalTab/Principal/MarginContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 8
 
-[node name="BotaoJogoLoja" parent="TabContainer/Loja/Principal/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_ko61b")]
+[node name="BotaoJogoLoja" parent="TabContainer/Loja/LojaPrincipal/PrincipalTab/Principal/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_ko61b")]
 layout_mode = 2
 
-[node name="BotaoJogoLoja2" parent="TabContainer/Loja/Principal/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_ko61b")]
+[node name="BotaoJogoLoja2" parent="TabContainer/Loja/LojaPrincipal/PrincipalTab/Principal/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_ko61b")]
 layout_mode = 2
 
-[node name="BotaoJogoLoja5" parent="TabContainer/Loja/Principal/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_ko61b")]
+[node name="BotaoJogoLoja5" parent="TabContainer/Loja/LojaPrincipal/PrincipalTab/Principal/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_ko61b")]
 layout_mode = 2
 
-[node name="BotaoJogoLoja6" parent="TabContainer/Loja/Principal/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_ko61b")]
+[node name="BotaoJogoLoja6" parent="TabContainer/Loja/LojaPrincipal/PrincipalTab/Principal/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_ko61b")]
 layout_mode = 2
 
-[node name="BotaoJogoLoja3" parent="TabContainer/Loja/Principal/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_ko61b")]
+[node name="BotaoJogoLoja3" parent="TabContainer/Loja/LojaPrincipal/PrincipalTab/Principal/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_ko61b")]
 layout_mode = 2
 
-[node name="BotaoJogoLoja4" parent="TabContainer/Loja/Principal/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_ko61b")]
+[node name="BotaoJogoLoja4" parent="TabContainer/Loja/LojaPrincipal/PrincipalTab/Principal/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_ko61b")]
 layout_mode = 2
 
-[node name="Dos Amigos" type="Panel" parent="TabContainer/Loja"]
+[node name="Dos Amigos" type="Panel" parent="TabContainer/Loja/LojaPrincipal/PrincipalTab"]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Loja/Dos Amigos"]
+[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Loja/LojaPrincipal/PrincipalTab/Dos Amigos"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -123,33 +143,148 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="ScrollContainer" type="ScrollContainer" parent="TabContainer/Loja/Dos Amigos/MarginContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="TabContainer/Loja/LojaPrincipal/PrincipalTab/Dos Amigos/MarginContainer"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Loja/Dos Amigos/MarginContainer/ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Loja/LojaPrincipal/PrincipalTab/Dos Amigos/MarginContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 8
 
-[node name="BotaoJogoLoja" parent="TabContainer/Loja/Dos Amigos/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_ko61b")]
+[node name="BotaoJogoLoja" parent="TabContainer/Loja/LojaPrincipal/PrincipalTab/Dos Amigos/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_ko61b")]
 layout_mode = 2
 
-[node name="BotaoJogoLoja2" parent="TabContainer/Loja/Dos Amigos/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_ko61b")]
+[node name="BotaoJogoLoja2" parent="TabContainer/Loja/LojaPrincipal/PrincipalTab/Dos Amigos/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_ko61b")]
 layout_mode = 2
 
-[node name="BotaoJogoLoja5" parent="TabContainer/Loja/Dos Amigos/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_ko61b")]
+[node name="BotaoJogoLoja5" parent="TabContainer/Loja/LojaPrincipal/PrincipalTab/Dos Amigos/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_ko61b")]
 layout_mode = 2
 
-[node name="BotaoJogoLoja6" parent="TabContainer/Loja/Dos Amigos/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_ko61b")]
+[node name="BotaoJogoLoja6" parent="TabContainer/Loja/LojaPrincipal/PrincipalTab/Dos Amigos/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_ko61b")]
 layout_mode = 2
 
-[node name="BotaoJogoLoja3" parent="TabContainer/Loja/Dos Amigos/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_ko61b")]
+[node name="BotaoJogoLoja3" parent="TabContainer/Loja/LojaPrincipal/PrincipalTab/Dos Amigos/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_ko61b")]
 layout_mode = 2
 
-[node name="BotaoJogoLoja4" parent="TabContainer/Loja/Dos Amigos/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_ko61b")]
+[node name="BotaoJogoLoja4" parent="TabContainer/Loja/LojaPrincipal/PrincipalTab/Dos Amigos/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_ko61b")]
 layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Loja/LojaPrincipal"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -143.0
+offset_top = 11.0
+offset_right = -11.0
+offset_bottom = 51.0
+grow_horizontal = 0
+alignment = 2
+
+[node name="Label" type="Label" parent="TabContainer/Loja/LojaPrincipal/HBoxContainer"]
+layout_mode = 2
+text = "2 itens"
+
+[node name="Button" type="Button" parent="TabContainer/Loja/LojaPrincipal/HBoxContainer"]
+layout_mode = 2
+text = "Carrinho"
+
+[node name="SistemaDeCompra" type="Control" parent="TabContainer/Loja"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Loja/SistemaDeCompra"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Loja/SistemaDeCompra/MarginContainer"]
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="TabContainer/Loja/SistemaDeCompra/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Loja/SistemaDeCompra/MarginContainer/HBoxContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="TabContainer/Loja/SistemaDeCompra/MarginContainer/HBoxContainer/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_88ykg")
+theme_override_font_sizes/font_size = 24
+text = "Seu Carrinho"
+horizontal_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Loja/SistemaDeCompra/MarginContainer/HBoxContainer/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ScrollContainer" type="ScrollContainer" parent="TabContainer/Loja/SistemaDeCompra/MarginContainer/HBoxContainer/Panel/VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Loja/SistemaDeCompra/MarginContainer/HBoxContainer/Panel/VBoxContainer/MarginContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PanelCompraJogo" parent="TabContainer/Loja/SistemaDeCompra/MarginContainer/HBoxContainer/Panel/VBoxContainer/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("4_i6r1v")]
+layout_mode = 2
+
+[node name="PanelCompraJogo2" parent="TabContainer/Loja/SistemaDeCompra/MarginContainer/HBoxContainer/Panel/VBoxContainer/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("4_i6r1v")]
+layout_mode = 2
+
+[node name="PanelCompraJogo3" parent="TabContainer/Loja/SistemaDeCompra/MarginContainer/HBoxContainer/Panel/VBoxContainer/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("4_i6r1v")]
+layout_mode = 2
+
+[node name="PanelCompraJogo4" parent="TabContainer/Loja/SistemaDeCompra/MarginContainer/HBoxContainer/Panel/VBoxContainer/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("4_i6r1v")]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="TabContainer/Loja/SistemaDeCompra/MarginContainer/HBoxContainer/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("6_5dmym")
+text = "Valor total: R$ 60,00"
+
+[node name="Panel2" type="Panel" parent="TabContainer/Loja/SistemaDeCompra/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Loja/SistemaDeCompra/MarginContainer/HBoxContainer/Panel2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label2" type="Label" parent="TabContainer/Loja/SistemaDeCompra/MarginContainer/HBoxContainer/Panel2/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_88ykg")
+theme_override_font_sizes/font_size = 24
+text = "Método de pagamento"
+horizontal_alignment = 1
 
 [node name="Perfil" type="TabContainer" parent="TabContainer"]
+visible = false
 layout_mode = 2
 theme = ExtResource("2_i6r1v")
 current_tab = 0
