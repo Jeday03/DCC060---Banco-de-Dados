@@ -1,8 +1,8 @@
 CREATE TABLE pais (
     id_pais INT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
-    porcentagem_imposto DECIMAL(5,2) NOT NULL
-    simbolo_moeda VARCHAR(10) NOT NULL
+    porcentagem_imposto DECIMAL(5,2) NOT NULL,
+    simbolo_moeda VARCHAR(10) NOT NULL,
     razao_cambio DECIMAL(10,4) NOT NULL
 );
 
@@ -40,9 +40,10 @@ CREATE TABLE publicadora (
 
 
 CREATE TABLE metodo_pagamento (
+    id_metodo_pagamento SERIAL PRIMARY KEY,
     id_consumidor INT NOT NULL,
     apelido VARCHAR(50) NOT NULL,
-    FOREIGN KEY (id_consumidor) REFERENCES consumidor(id_consumidor),
+    FOREIGN KEY (id_consumidor) REFERENCES consumidor(id_consumidor)
 );
 
 CREATE TABLE pagamento_cartao_credito (
@@ -67,7 +68,6 @@ CREATE TABLE pagamento_pix (
     FOREIGN KEY (id_metodo_pagamento) REFERENCES metodo_pagamento(id_metodo_pagamento)
 );
 
---Tá certo isso aqui? Não seria em conjunto com a tabela de Publicadora?
 CREATE TABLE metodo_recebimento (
     id_metodo_recebimento INT PRIMARY KEY,
     tipo VARCHAR(50) NOT NULL
@@ -100,10 +100,10 @@ CREATE TABLE jogo (
 
 CREATE TABLE jogo_comprado (
     id_jogo_comprado INT PRIMARY KEY,
-    id_consumidor INT NOT NULL,
+    id_consumidor INT NOT NULL, -- tava faltando declarar o consumidor
     id_jogo INT NOT NULL,
-    --id_metodo_pagamento INT NOT NULL,
     data_compra DATE NOT NULL,
+    id_metodo_pagamento INT NOT NULL,
     FOREIGN KEY (id_consumidor) REFERENCES consumidor(id_consumidor),
     FOREIGN KEY (id_jogo) REFERENCES jogo(id_jogo),
     FOREIGN KEY (id_metodo_pagamento) REFERENCES metodo_pagamento(id_metodo_pagamento)
@@ -119,8 +119,10 @@ CREATE TABLE conquista (
 CREATE TABLE jogo_comprado_conquista (
     id_jogo_comprado INT NOT NULL,
     id_conquista INT NOT NULL,
+    --id_consumidor INT NOT NULL, testando se é necessário
     PRIMARY KEY (id_jogo_comprado, id_conquista),
-    FOREIGN KEY (id_consumidor) REFERENCES consumidor(id_consumidor),
+    FOREIGN KEY (id_jogo_comprado) REFERENCES jogo_comprado(id_jogo_comprado),
+    --FOREIGN KEY (id_consumidor) REFERENCES consumidor(id_consumidor),
     FOREIGN KEY (id_conquista) REFERENCES conquista(id_conquista)
 );
 
@@ -144,3 +146,7 @@ CREATE TABLE recebimento (
     FOREIGN KEY (id_publicadora) REFERENCES publicadora(id_publicadora),
     FOREIGN KEY (id_metodo_recebimento) REFERENCES metodo_recebimento(id_metodo_recebimento)
 );
+
+--Tá certo isso aqui? Não seria em conjunto com a tabela de Publicadora?
+-- Acho que ta, pq é um relacionamento N:N entre Publicadora e Método de Recebimento né? Aí cada uma tem q ter sua tabela
+-- Joguei pro final pq o neon é bugado e não deixava criar a tabela se tiver comentario antes
