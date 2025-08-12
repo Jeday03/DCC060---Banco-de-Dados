@@ -1,4 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://duh5maitd0kw2"]
+[gd_scene load_steps=3 format=3 uid="uid://duh5maitd0kw2"]
+
+[ext_resource type="Script" uid="uid://dn6wgu3e72kmd" path="res://Src/TelaLogin.gd" id="1_ljt3u"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7fhxt"]
 content_margin_left = 0.0
@@ -43,6 +45,7 @@ custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 theme_override_constants/separation = 9
 alignment = 1
+script = ExtResource("1_ljt3u")
 
 [node name="Label" type="Label" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
@@ -78,3 +81,6 @@ text = "Registrar"
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Entrar"
+
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer/Button" to="HBoxContainer/VBoxContainer" method="registrar_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer/Button2" to="HBoxContainer/VBoxContainer" method="login_pressed"]

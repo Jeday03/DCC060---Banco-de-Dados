@@ -1,4 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://tq1ftj6i44qk"]
+[gd_scene load_steps=3 format=3 uid="uid://tq1ftj6i44qk"]
+
+[ext_resource type="Script" uid="uid://daftxnf05a1mc" path="res://Src/TelaRegistro.gd" id="1_uvppl"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8fn0s"]
 content_margin_left = 0.0
@@ -43,6 +45,7 @@ custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 theme_override_constants/separation = 9
 alignment = 1
+script = ExtResource("1_uvppl")
 
 [node name="Label" type="Label" parent="Panel/HBoxContainer/VBoxContainer"]
 layout_mode = 2
@@ -87,3 +90,6 @@ text = "Voltar"
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Registrar"
+
+[connection signal="pressed" from="Panel/HBoxContainer/VBoxContainer/HBoxContainer/Button" to="Panel/HBoxContainer/VBoxContainer" method="voltar_pressed"]
+[connection signal="pressed" from="Panel/HBoxContainer/VBoxContainer/HBoxContainer/Button2" to="Panel/HBoxContainer/VBoxContainer" method="cadastro_pressed"]

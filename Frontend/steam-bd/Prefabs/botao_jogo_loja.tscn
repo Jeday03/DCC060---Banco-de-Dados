@@ -1,0 +1,62 @@
+[gd_scene load_steps=3 format=3 uid="uid://cdwg6ryp5yp3i"]
+
+[ext_resource type="Texture2D" uid="uid://cyurr47bhx7su" path="res://icon.svg" id="1_ymccy"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6gacm"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.88, 0.88, 0.88, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[node name="BotaoJogoLoja" type="Button"]
+custom_minimum_size = Vector2(0, 104.645)
+theme_override_styles/normal = SubResource("StyleBoxFlat_6gacm")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("1_ymccy")
+expand_mode = 3
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 60
+text = "Nome do jogo"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -182.0
+offset_top = -42.64499
+offset_right = -13.0
+offset_bottom = -11.644989
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 21
+text = "R$ 10,00"
+horizontal_alignment = 2

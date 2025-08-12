@@ -11,8 +11,15 @@ config_version=5
 [application]
 
 config/name="SteamBD"
+run/main_scene="uid://duh5maitd0kw2"
 config/features=PackedStringArray("4.5", "Mobile")
 config/icon="res://icon.svg"
+
+[autoload]
+
+Cortina="*res://Addon/TransicaoDeCenas/TransicaoCena.tscn"
+SceneController="*res://Addon/TransicaoDeCenas/SceneController.gd"
+NetworkManager="*res://Src/NetworkManager.gd"
 
 [rendering]
 

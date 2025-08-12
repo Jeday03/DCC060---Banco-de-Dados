@@ -1,0 +1,176 @@
+[gd_scene load_steps=6 format=3 uid="uid://bvqec7yaqmxpy"]
+
+[ext_resource type="Theme" uid="uid://ddyultgdawo4w" path="res://MainTheme.tres" id="1_7aqto"]
+[ext_resource type="Theme" uid="uid://dq5r5v3vdfy3j" path="res://SecondTheme.tres" id="2_i6r1v"]
+[ext_resource type="PackedScene" uid="uid://cdwg6ryp5yp3i" path="res://Prefabs/botao_jogo_loja.tscn" id="2_ko61b"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4wtlq"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.101960786, 0.2627451, 0.4117647, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0yolq"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.8, 0.304, 0.304, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_4wtlq")
+
+[node name="TabContainer" type="TabContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 1.664978
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_7aqto")
+current_tab = 1
+clip_tabs = false
+
+[node name="Loja" type="TabContainer" parent="TabContainer"]
+visible = false
+layout_mode = 2
+theme = ExtResource("2_i6r1v")
+current_tab = 0
+metadata/_tab_index = 0
+
+[node name="Principal" type="Panel" parent="TabContainer/Loja"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Loja/Principal"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ScrollContainer" type="ScrollContainer" parent="TabContainer/Loja/Principal/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Loja/Principal/MarginContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="BotaoJogoLoja" parent="TabContainer/Loja/Principal/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_ko61b")]
+layout_mode = 2
+
+[node name="BotaoJogoLoja2" parent="TabContainer/Loja/Principal/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_ko61b")]
+layout_mode = 2
+
+[node name="BotaoJogoLoja5" parent="TabContainer/Loja/Principal/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_ko61b")]
+layout_mode = 2
+
+[node name="BotaoJogoLoja6" parent="TabContainer/Loja/Principal/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_ko61b")]
+layout_mode = 2
+
+[node name="BotaoJogoLoja3" parent="TabContainer/Loja/Principal/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_ko61b")]
+layout_mode = 2
+
+[node name="BotaoJogoLoja4" parent="TabContainer/Loja/Principal/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_ko61b")]
+layout_mode = 2
+
+[node name="Dos Amigos" type="Panel" parent="TabContainer/Loja"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Loja/Dos Amigos"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ScrollContainer" type="ScrollContainer" parent="TabContainer/Loja/Dos Amigos/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Loja/Dos Amigos/MarginContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="BotaoJogoLoja" parent="TabContainer/Loja/Dos Amigos/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_ko61b")]
+layout_mode = 2
+
+[node name="BotaoJogoLoja2" parent="TabContainer/Loja/Dos Amigos/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_ko61b")]
+layout_mode = 2
+
+[node name="BotaoJogoLoja5" parent="TabContainer/Loja/Dos Amigos/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_ko61b")]
+layout_mode = 2
+
+[node name="BotaoJogoLoja6" parent="TabContainer/Loja/Dos Amigos/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_ko61b")]
+layout_mode = 2
+
+[node name="BotaoJogoLoja3" parent="TabContainer/Loja/Dos Amigos/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_ko61b")]
+layout_mode = 2
+
+[node name="BotaoJogoLoja4" parent="TabContainer/Loja/Dos Amigos/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_ko61b")]
+layout_mode = 2
+
+[node name="Perfil" type="TabContainer" parent="TabContainer"]
+layout_mode = 2
+theme = ExtResource("2_i6r1v")
+current_tab = 0
+metadata/_tab_index = 1
+
+[node name="Sua conta" type="Panel" parent="TabContainer/Perfil"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="Formas de pagamento" type="Panel" parent="TabContainer/Perfil"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="Amigos" type="Panel" parent="TabContainer/Perfil"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="Configurações" type="Panel" parent="TabContainer"]
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_0yolq")
+metadata/_tab_index = 2
