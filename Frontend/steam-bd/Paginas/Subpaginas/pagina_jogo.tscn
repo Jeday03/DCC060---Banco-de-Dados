@@ -1,0 +1,118 @@
+[gd_scene load_steps=4 format=3 uid="uid://djftmrhmcn3hc"]
+
+[ext_resource type="Script" uid="uid://ds0vnhekjyec0" path="res://Src/pagina_jogo.gd" id="1_pjmuf"]
+[ext_resource type="FontFile" uid="uid://ckyoty6vujyt5" path="res://Fontes/Roboto-Black.ttf" id="2_1taxc"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_24qr2"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.38, 0.38, 0.38, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[node name="PaginaJogo" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_pjmuf")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_24qr2")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="TituloLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_1taxc")
+theme_override_font_sizes/font_size = 50
+text = "Nome do jogo"
+
+[node name="desc" type="RichTextLabel" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "fdasfjdkslafjdklsajfkdlsajfklajfdklsajfkdlasff jklf jkl aaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaa aaaaaaaaaa aaaaaaaa aaaaaaaaaa"
+fit_content = true
+
+[node name="PrecoLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_1taxc")
+theme_override_font_sizes/font_size = 34
+text = "R$ 10.00"
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "Comprar jogo"
+
+[node name="Control" type="Control" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 151.755)
+layout_mode = 2
+
+[node name="TextEdit" type="TextEdit" parent="MarginContainer/VBoxContainer/Control"]
+custom_minimum_size = Vector2(0, 105.835)
+layout_mode = 0
+offset_top = 4.0
+offset_right = 1132.0
+offset_bottom = 109.835
+placeholder_text = "Insira aqui seu cometário"
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/Control"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -31.0
+offset_right = 150.0
+grow_vertical = 0
+text = "Enviar comentário"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -81.0
+offset_top = 17.0
+offset_right = -26.0
+offset_bottom = 48.0
+grow_horizontal = 0
+text = "Voltar"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Control/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Button" to="." method="voltar_pressed"]

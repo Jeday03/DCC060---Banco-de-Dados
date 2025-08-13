@@ -234,6 +234,53 @@ def purchase_game():
                 return jsonify({"error": "Consumidor já possui este jogo"}), 409
             return jsonify({"error": msg}), 400
 
+@app.get("/games/bulk")
+def get_multiple_games():
+    # Pega os IDs dos jogos da query string: /games/bulk?ids=1,2,3,4
+    ids_param = request.args.get('ids')
+    if not ids_param:
+        return jsonify({"error": "Parâmetro 'ids' é obrigatório"}), 400
+    
+    try:
+        # Converte string "1,2,3" em lista de inteiros
+        game_ids = [int(id.strip()) for id in ids_param.split(',')]
+    except ValueError:
+        return jsonify({"error": "IDs devem ser números inteiros separados por vírgula"}), 400
+    
+    if len(game_ids) > 50:  # Limite para evitar queries muito grandes
+        return jsonify({"error": "Máximo de 50 jogos por vez"}), 400
+    
+    with pool.connection() as conn, conn.cursor() as cur:
+        # Usa ANY para buscar múltiplos IDs
+        cur.execute("""
+            SELECT j.id_jogo, j.titulo, j.preco_dolar, j.foto_capa,
+                   d.id_desenvolvedora, p.id_publicadora
+            FROM jogo j
+            JOIN desenvolvedora d ON d.id_desenvolvedora = j.id_desenvolvedora
+            LEFT JOIN publicadora p ON p.id_publicadora = j.id_publicadora
+            WHERE j.id_jogo = ANY(%s)
+            ORDER BY j.titulo;
+        """, (game_ids,))
+        
+        rows = cur.fetchall()
+        cols = [d[0] for d in cur.description]
+        data = [dict(zip(cols, r)) for r in rows]
+        
+        # Opcional: indicar quais IDs não foram encontrados
+        found_ids = {row['id_jogo'] for row in data}
+        missing_ids = [id for id in game_ids if id not in found_ids]
+        
+        result = {
+            "games": data,
+            "requested_count": len(game_ids),
+            "found_count": len(data)
+        }
+        
+        if missing_ids:
+            result["missing_ids"] = missing_ids
+            
+        return jsonify(result)
+
 # ===========================
 # Retorna todos os jogos comprados por um determinado usuário (se for consumidor)
 # ===========================

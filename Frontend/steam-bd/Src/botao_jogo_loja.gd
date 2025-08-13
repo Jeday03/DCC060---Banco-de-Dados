@@ -16,7 +16,8 @@ func setup(_id_jogo: int, nomeJogo : String, simbolo : String, preco : float, am
 	if amigo != '':
 		amigoLabel.text = "De: " + amigo
 
-
 func _on_pressed() -> void:
 	Controller.abrirPagina(id_jogo)
-	pass # Replace with function body.
+
+func comprar_pressed() -> void:
+	CarrinhoCompras.adicionar(id_jogo)

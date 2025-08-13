@@ -1,5 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://c8aplugm1rl8w"]
+[gd_scene load_steps=7 format=3 uid="uid://c8aplugm1rl8w"]
 
+[ext_resource type="Script" uid="uid://ccdldaaxauh5y" path="res://Src/PanelCompraJogo.gd" id="1_01ke0"]
 [ext_resource type="Texture2D" uid="uid://cyurr47bhx7su" path="res://icon.svg" id="1_7clkk"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ko61b"]
@@ -51,8 +52,11 @@ corner_radius_bottom_left = 3
 corner_detail = 5
 
 [node name="PanelCompraJogo" type="Panel"]
-custom_minimum_size = Vector2(0, 70)
+custom_minimum_size = Vector2(22.03, 70)
+offset_right = 675.0
+offset_bottom = 70.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_ko61b")
+script = ExtResource("1_01ke0")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
@@ -93,3 +97,5 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_i6r1v")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_88ykg")
 theme_override_styles/hover = SubResource("StyleBoxFlat_5dmym")
 text = "Remover"
+
+[connection signal="pressed" from="HBoxContainer2/Button" to="." method="_on_button_pressed"]

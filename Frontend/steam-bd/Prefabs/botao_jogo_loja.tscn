@@ -53,6 +53,11 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 20
 vertical_alignment = 2
 
+[node name="ComprarButton" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+text = "Comprar"
+
 [node name="Label" type="Label" parent="."]
 layout_mode = 1
 anchors_preset = 3
@@ -71,3 +76,4 @@ text = "R$ 10,00"
 horizontal_alignment = 2
 
 [connection signal="pressed" from="." to="." method="_on_pressed"]
+[connection signal="pressed" from="HBoxContainer/ComprarButton" to="." method="comprar_pressed"]

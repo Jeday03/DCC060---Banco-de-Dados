@@ -37,7 +37,7 @@ corner_radius_top_left = 20
 corner_radius_top_right = 20
 
 [resource]
-TabContainer/constants/side_margin = 117
+TabContainer/constants/side_margin = 50
 TabContainer/constants/tab_separation = 10
 TabContainer/font_sizes/font_size = 27
 TabContainer/fonts/font = ExtResource("1_4as0w")
