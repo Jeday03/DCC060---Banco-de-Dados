@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bvqec7yaqmxpy"]
+[gd_scene load_steps=16 format=3 uid="uid://bvqec7yaqmxpy"]
 
 [ext_resource type="Theme" uid="uid://ddyultgdawo4w" path="res://MainTheme.tres" id="1_7aqto"]
 [ext_resource type="Theme" uid="uid://dq5r5v3vdfy3j" path="res://SecondTheme.tres" id="2_i6r1v"]
@@ -6,8 +6,11 @@
 [ext_resource type="Script" uid="uid://cvx3sqetjw1v7" path="res://Src/LojaPrincipalAmigos.gd" id="4_24qr2"]
 [ext_resource type="Script" uid="uid://cl5lpjhbq568d" path="res://Src/CarrinhoUI.gd" id="5_oynkd"]
 [ext_resource type="PackedScene" uid="uid://cenb451jnm8np" path="res://Paginas/Subpaginas/sistema_de_compra.tscn" id="6_54tox"]
+[ext_resource type="Script" uid="uid://cvvcpsswua2f3" path="res://Src/SuaContaPage.gd" id="8_1ligh"]
 [ext_resource type="PackedScene" uid="uid://djftmrhmcn3hc" path="res://Paginas/Subpaginas/pagina_jogo.tscn" id="8_24qr2"]
 [ext_resource type="Script" uid="uid://bgn855iukrmv8" path="res://Src/PaginaAmigo.gd" id="8_oynkd"]
+[ext_resource type="Script" uid="uid://djk1fa0j6jvl3" path="res://Paginas/sua_biblioteca.gd" id="9_1ligh"]
+[ext_resource type="PackedScene" uid="uid://b0ar6ox1lu6b7" path="res://Prefabs/panel_biblioteca.tscn" id="10_i5nx4"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4wtlq"]
 content_margin_left = 0.0
@@ -20,6 +23,12 @@ corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oynkd"]
+bg_color = Color(0.0980392, 0.164706, 0.223529, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1ligh"]
+bg_color = Color(0.0980392, 0.164706, 0.223529, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_24qr2"]
 content_margin_left = 0.0
@@ -167,24 +176,95 @@ layout_mode = 1
 visible = false
 layout_mode = 2
 theme = ExtResource("2_i6r1v")
-current_tab = 0
+current_tab = 1
 metadata/_tab_index = 1
 
 [node name="Sua conta" type="Panel" parent="TabContainer/Perfil"]
+visible = false
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_oynkd")
+script = ExtResource("8_1ligh")
 metadata/_tab_index = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Perfil/Sua conta"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -39.0
+offset_top = 23.0
+offset_right = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="TabContainer/Perfil/Sua conta/VBoxContainer"]
+layout_mode = 2
+text = "Nickname"
+horizontal_alignment = 1
+
+[node name="LineEdit" type="LineEdit" parent="TabContainer/Perfil/Sua conta/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="TabContainer/Perfil/Sua conta/VBoxContainer"]
+layout_mode = 2
+text = "email"
+horizontal_alignment = 1
+
+[node name="LineEdit2" type="LineEdit" parent="TabContainer/Perfil/Sua conta/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="TabContainer/Perfil/Sua conta/VBoxContainer"]
+layout_mode = 2
+text = "É premium?"
+horizontal_alignment = 1
+
+[node name="Label4" type="Label" parent="TabContainer/Perfil/Sua conta/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.85, 0.85, 1)
+text = "SIM"
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="TabContainer/Perfil/Sua conta/VBoxContainer"]
+layout_mode = 2
+text = "Atualizar Informações "
+
+[node name="Sua biblioteca" type="Panel" parent="TabContainer/Perfil"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_1ligh")
+script = ExtResource("9_1ligh")
+metadata/_tab_index = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Perfil/Sua biblioteca"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Perfil/Sua biblioteca/MarginContainer"]
+layout_mode = 2
+
+[node name="PanelBiblioteca" parent="TabContainer/Perfil/Sua biblioteca/MarginContainer/VBoxContainer" instance=ExtResource("10_i5nx4")]
+layout_mode = 2
 
 [node name="Formas de pagamento" type="Panel" parent="TabContainer/Perfil"]
 visible = false
 layout_mode = 2
-metadata/_tab_index = 1
+metadata/_tab_index = 2
 
 [node name="Amigos" type="Panel" parent="TabContainer/Perfil"]
 visible = false
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_24qr2")
 script = ExtResource("8_oynkd")
-metadata/_tab_index = 2
+metadata/_tab_index = 3
 
 [node name="MarginContainer" type="MarginContainer" parent="TabContainer/Perfil/Amigos"]
 layout_mode = 1
@@ -240,4 +320,6 @@ theme_override_constants/separation = 14
 [connection signal="draw" from="TabContainer/Loja/LojaPrincipal/PrincipalTab/Principal" to="TabContainer/Loja/LojaPrincipal/PrincipalTab/Principal" method="_on_draw"]
 [connection signal="draw" from="TabContainer/Loja/LojaPrincipal/PrincipalTab/Dos Amigos" to="TabContainer/Loja/LojaPrincipal/PrincipalTab/Dos Amigos" method="_on_draw"]
 [connection signal="pressed" from="TabContainer/Loja/LojaPrincipal/HBoxContainer/Button" to="TabContainer/Loja/LojaPrincipal/HBoxContainer" method="pagar_compra"]
+[connection signal="pressed" from="TabContainer/Perfil/Sua conta/VBoxContainer/Button" to="TabContainer/Perfil/Sua conta" method="atualizar_info"]
+[connection signal="visibility_changed" from="TabContainer/Perfil/Sua biblioteca" to="TabContainer/Perfil/Sua biblioteca" method="_on_visibility_changed"]
 [connection signal="pressed" from="TabContainer/Perfil/Amigos/MarginContainer/VBoxContainer/Control/Button" to="TabContainer/Perfil/Amigos" method="adicionar_amigo_pressed"]

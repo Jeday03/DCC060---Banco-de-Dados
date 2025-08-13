@@ -87,6 +87,105 @@ def login():
             return jsonify({"error": "Credenciais inválidas"}), 401
         return jsonify(row_to_dict(cur, row))
 
+# ===========================
+# Atualiza as informações de um consumidor/usuário
+# ===========================
+@app.put("/consumers/<int:id_consumidor>")
+def update_consumer(id_consumidor):
+    """
+    Body: {
+      "nickname": "novo_nickname",   // opcional  
+      "email": "novo@email.com"      // opcional
+    }
+    """
+    data = request.get_json(force=True)
+    
+    # Campos que podem ser atualizados (apenas nickname e email)
+    allowed_fields = ["nickname", "email"]
+    updates = {k: v for k, v in data.items() if k in allowed_fields and v is not None}
+    
+    if not updates:
+        return jsonify({"error": "Nenhum campo válido fornecido para atualização"}), 400
+
+    with pool.connection() as conn, conn.cursor() as cur:
+        try:
+            # Verifica se o consumidor existe e pega o id_usuario
+            cur.execute("""
+                SELECT u.id_usuario, u.nome, u.nickname, u.email, u.id_pais
+                FROM consumidor c
+                JOIN usuario u ON u.id_usuario = c.id_usuario
+                WHERE c.id_consumidor = %s;
+            """, (id_consumidor,))
+            
+            user_data = cur.fetchone()
+            if not user_data:
+                return jsonify({"error": "Consumidor não encontrado"}), 404
+            
+            id_usuario = user_data[0]
+            
+            # Verifica se o novo nickname já existe (se fornecido)
+            if "nickname" in updates:
+                cur.execute("""
+                    SELECT id_usuario FROM usuario 
+                    WHERE nickname = %s AND id_usuario != %s;
+                """, (updates["nickname"], id_usuario))
+                if cur.fetchone():
+                    return jsonify({"error": "Nickname já está em uso"}), 409
+            
+            # Verifica se o novo email já existe (se fornecido)
+            if "email" in updates:
+                cur.execute("""
+                    SELECT id_usuario FROM usuario 
+                    WHERE email = %s AND id_usuario != %s;
+                """, (updates["email"], id_usuario))
+                if cur.fetchone():
+                    return jsonify({"error": "Email já está em uso"}), 409
+
+            # Constrói a query de atualização dinamicamente
+            set_clauses = []
+            values = []
+            
+            for field, value in updates.items():
+                set_clauses.append(f"{field} = %s")
+                values.append(value)
+            
+            values.append(id_usuario)  # Para o WHERE
+            
+            update_query = f"""
+                UPDATE usuario 
+                SET {', '.join(set_clauses)}
+                WHERE id_usuario = %s
+                RETURNING id_usuario, nome, nickname, email, id_pais;
+            """
+            
+            cur.execute(update_query, values)
+            updated_user = cur.fetchone()
+            
+            # Busca as informações completas atualizadas
+            cur.execute("""
+                SELECT c.id_consumidor, c.eh_premium,
+                       u.id_usuario, u.nome, u.nickname, u.email,
+                       p.id_pais, p.nome as nome_pais, p.simbolo_moeda, p.razao_cambio, p.porcentagem_imposto
+                FROM consumidor c
+                JOIN usuario u ON u.id_usuario = c.id_usuario
+                JOIN pais p ON p.id_pais = u.id_pais
+                WHERE c.id_consumidor = %s;
+            """, (id_consumidor,))
+            
+            updated_data = cur.fetchone()
+            
+            conn.commit()
+            
+            return jsonify({
+                "message": "Informações atualizadas com sucesso",
+                "updated_fields": list(updates.keys()),
+                "consumer": row_to_dict(cur, updated_data)
+            }), 200
+
+        except Exception as e:
+            conn.rollback()
+            return jsonify({"error": str(e)}), 400
+
 @app.post("/consumer-login")
 def consumer_login():
     data = request.get_json(force=True)
@@ -107,6 +206,25 @@ def consumer_login():
         row = cur.fetchone()
         if not row:
             return jsonify({"error": "Credenciais inválidas ou usuário não é consumidor"}), 401
+        return jsonify(row_to_dict(cur, row))
+
+@app.get("/consumers/<int:id_consumidor>")
+def get_consumer_info(id_consumidor):
+    with pool.connection() as conn, conn.cursor() as cur:
+        cur.execute("""
+            SELECT c.id_consumidor, c.eh_premium,
+                   u.id_usuario, u.nome, u.nickname, u.email,
+                   p.id_pais, p.nome as nome_pais, p.simbolo_moeda, p.razao_cambio, p.porcentagem_imposto
+            FROM consumidor c
+            JOIN usuario u ON u.id_usuario = c.id_usuario
+            JOIN pais p ON p.id_pais = u.id_pais
+            WHERE c.id_consumidor = %s;
+        """, (id_consumidor,))
+        
+        row = cur.fetchone()
+        if not row:
+            return jsonify({"error": "Consumidor não encontrado"}), 404
+        
         return jsonify(row_to_dict(cur, row))
 
 # ===========================
