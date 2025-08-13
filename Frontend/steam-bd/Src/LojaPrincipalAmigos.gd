@@ -17,4 +17,4 @@ func callback(result, code, headers, body):
 	for jogo in listaJogos:
 		var b : BotaoJogoLoja = BOTAO_JOGO_LOJA.instantiate() as BotaoJogoLoja
 		container.add_child(b)
-		b.setup(jogo['titulo'], Controller.simbolo_montario, float(jogo['preco_dolar']) * Controller.cambio, jogo['nickname_amigo'])
+		b.setup(jogo['id_jogo'] ,jogo['titulo'], Controller.simbolo_montario, float(jogo['preco_dolar']) * Controller.cambio, jogo['nickname_amigo'])

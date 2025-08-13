@@ -51,7 +51,6 @@ text = "Nome do jogo"
 [node name="Label2" type="Label" parent="HBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
-text = "AMIGINHO"
 vertical_alignment = 2
 
 [node name="Label" type="Label" parent="."]

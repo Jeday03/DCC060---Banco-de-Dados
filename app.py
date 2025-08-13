@@ -9,20 +9,6 @@ def row_to_dict(cursor, row):
     cols = [desc[0] for desc in cursor.description]
     return dict(zip(cols, row))
 
-
-@app.get("/pais/<int:id_pais>")
-def get_country(id_pais):
-    with pool.connection() as conn, conn.cursor() as cur:
-        cur.execute("""
-            SELECT id_pais, nome, razao_cambio, porcentagem_imposto, simbolo_moeda
-            FROM pais
-            WHERE id_pais = %s;
-        """, (id_pais,))
-        row = cur.fetchone()
-        if not row:
-            return jsonify({"error": "País não encontrado"}), 404
-        return jsonify(row_to_dict(cur, row))
-
 # ===========================
 # Retorna uma lista com todos os jogos cadastrados, incluindo desenvolvedora e publicadora
 # ===========================
@@ -275,6 +261,23 @@ def list_purchases(id_usuario):
         cols = [d[0] for d in cur.description]
         return jsonify([dict(zip(cols, row)) for row in rows])
 
+@app.get("/games/<int:id_jogo>")
+def get_game_details(id_jogo):
+    with pool.connection() as conn, conn.cursor() as cur:
+        cur.execute("""
+            SELECT j.id_jogo, j.titulo, j.preco_dolar, j.foto_capa,
+                   d.id_desenvolvedora, p.id_publicadora, j.descricao
+            FROM jogo j
+            JOIN desenvolvedora d ON d.id_desenvolvedora = j.id_desenvolvedora
+            LEFT JOIN publicadora p ON p.id_publicadora = j.id_publicadora
+            WHERE j.id_jogo = %s;
+        """, (id_jogo,))
+        row = cur.fetchone()
+        if not row:
+            return jsonify({"error": "Jogo não encontrado"}), 404
+        cols = [d[0] for d in cur.description]
+        return jsonify(dict(zip(cols, row)))
+
 # ===========================
 # Insere um comentário de um consumidor para um jogo ou atualiza se já existir
 # ===========================
@@ -321,12 +324,11 @@ def upsert_comment(id_jogo):
 def list_comments(id_jogo):
     with pool.connection() as conn, conn.cursor() as cur:
         cur.execute("""
-            SELECT cm.id_consumidor, u.nickname, cm.texto, cm.data_comentario
+            SELECT cm.id_consumidor, u.nickname, cm.texto
             FROM comentario cm
             JOIN consumidor c ON c.id_consumidor = cm.id_consumidor
             JOIN usuario u ON u.id_usuario = c.id_usuario
             WHERE cm.id_jogo = %s
-            ORDER BY cm.data_comentario DESC;
         """, (id_jogo,))
         rows = cur.fetchall()
         cols = [d[0] for d in cur.description]

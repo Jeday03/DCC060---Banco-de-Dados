@@ -14,7 +14,8 @@ func _on_draw() -> void:
 func pegaJogos(result, code, headers, body):
 	var data = NetworkManager.returnData(body)
 	listaJogos = data
+	print(data)
 	for jogo in listaJogos:
 		var b : BotaoJogoLoja = BOTAO_JOGO_LOJA.instantiate() as BotaoJogoLoja
 		containerJogos.add_child(b)
-		b.setup(jogo['titulo'], Controller.simbolo_montario, float(jogo['preco_dolar']) * Controller.cambio)
+		b.setup(jogo['id_jogo'], jogo['titulo'], Controller.simbolo_montario, float(jogo['preco_dolar']) * Controller.cambio)

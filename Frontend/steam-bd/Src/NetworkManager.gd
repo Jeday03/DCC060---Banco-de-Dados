@@ -36,6 +36,7 @@ func _process_queue():
 		
 func returnData(body):
 	var response_text = body.get_string_from_utf8()
+	print(response_text)
 	var response_data = JSON.parse_string(response_text)
 	return response_data
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bvqec7yaqmxpy"]
+[gd_scene load_steps=13 format=3 uid="uid://bvqec7yaqmxpy"]
 
 [ext_resource type="Theme" uid="uid://ddyultgdawo4w" path="res://MainTheme.tres" id="1_7aqto"]
 [ext_resource type="Theme" uid="uid://dq5r5v3vdfy3j" path="res://SecondTheme.tres" id="2_i6r1v"]
@@ -38,7 +38,19 @@ content_margin_left = 0.0
 content_margin_top = 0.0
 content_margin_right = 0.0
 content_margin_bottom = 0.0
-bg_color = Color(0.38, 0.38, 0.38, 1)
+bg_color = Color(0.1, 0.1, 0.1, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5dmym"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.66, 0.66, 0.66, 0.6)
 corner_radius_top_left = 3
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
@@ -273,6 +285,7 @@ text = "Método de pagamento"
 horizontal_alignment = 1
 
 [node name="PaginaJogo" type="Control" parent="TabContainer/Loja"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -305,38 +318,18 @@ theme_override_constants/margin_bottom = 10
 [node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Loja/PaginaJogo/MarginContainer"]
 layout_mode = 2
 
-[node name="TituloLabel" type="Label" parent="TabContainer/Loja/PaginaJogo/MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="TabContainer/Loja/PaginaJogo/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("6_5dmym")
 theme_override_font_sizes/font_size = 34
 text = "Nome do jogo"
 
-[node name="desc" type="RichTextLabel" parent="TabContainer/Loja/PaginaJogo/MarginContainer/VBoxContainer"]
+[node name="Label2" type="Label" parent="TabContainer/Loja/PaginaJogo/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "fdasfjdkslafjdklsajfkdlsajfklajfdklsajfkdlasff jklf jkl aaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaa aaaaaaaaaa aaaaaaaa aaaaaaaaaa"
-fit_content = true
-
-[node name="Control" type="Control" parent="TabContainer/Loja/PaginaJogo/MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 151.755)
-layout_mode = 2
-
-[node name="TextEdit" type="TextEdit" parent="TabContainer/Loja/PaginaJogo/MarginContainer/VBoxContainer/Control"]
-custom_minimum_size = Vector2(0, 105.835)
-layout_mode = 0
-offset_top = 4.0
-offset_right = 1132.0
-offset_bottom = 109.835
-placeholder_text = "Insira aqui seu cometário"
-
-[node name="Button" type="Button" parent="TabContainer/Loja/PaginaJogo/MarginContainer/VBoxContainer/Control"]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -31.0
-offset_right = 150.0
-grow_vertical = 0
-text = "Enviar comentário"
+text = "Aqui vai uma pequena descrição do jogo criado
+fdsafdaf
+fdsajklfdjaskl
+fjdklsafjdklas"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="TabContainer/Loja/PaginaJogo/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -346,6 +339,35 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+
+[node name="Panel" type="Panel" parent="TabContainer/Loja/PaginaJogo/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Loja/PaginaJogo/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="TabContainer/Loja/PaginaJogo/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 31.365)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_5dmym")
+
+[node name="Label" type="Label" parent="TabContainer/Loja/PaginaJogo/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Panel/VBoxContainer/Panel"]
+layout_mode = 0
+offset_top = 4.0
+offset_right = 1132.0
+offset_bottom = 27.0
+text = "  Nome do usuário"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="TabContainer/Loja/PaginaJogo/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 
 [node name="Perfil" type="TabContainer" parent="TabContainer"]
 visible = false
@@ -386,4 +408,3 @@ text = ">"
 
 [connection signal="draw" from="TabContainer/Loja/LojaPrincipal/PrincipalTab/Principal" to="TabContainer/Loja/LojaPrincipal/PrincipalTab/Principal" method="_on_draw"]
 [connection signal="draw" from="TabContainer/Loja/LojaPrincipal/PrincipalTab/Dos Amigos" to="TabContainer/Loja/LojaPrincipal/PrincipalTab/Dos Amigos" method="_on_draw"]
-[connection signal="pressed" from="TabContainer/Loja/PaginaJogo/MarginContainer/VBoxContainer/Control/Button" to="TabContainer/Loja/PaginaJogo" method="_on_button_pressed"]

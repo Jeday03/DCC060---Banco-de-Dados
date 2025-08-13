@@ -92,6 +92,7 @@ CREATE TABLE jogo (
     foto_capa VARCHAR(255) NOT NULL, -- Caminho para a imagem da capa do jogo
     id_desenvolvedora INT NOT NULL,
     id_publicadora INT,
+    descricao TEXT,
     FOREIGN KEY (id_desenvolvedora) REFERENCES desenvolvedora(id_desenvolvedora),
     FOREIGN KEY (id_publicadora) REFERENCES publicadora(id_publicadora)
 );
