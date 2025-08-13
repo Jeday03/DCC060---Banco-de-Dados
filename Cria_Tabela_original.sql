@@ -20,6 +20,7 @@ CREATE TABLE usuario (
 CREATE TABLE consumidor (
     id_consumidor INT PRIMARY KEY,
     id_usuario INT NOT NULL UNIQUE,
+    eh_premium BOOLEAN NOT NULL DEFAULT FALSE,
     FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
 );
 
@@ -104,6 +105,7 @@ CREATE TABLE jogo_comprado (
     id_jogo INT NOT NULL,
     data_compra DATE NOT NULL,
     id_metodo_pagamento INT NOT NULL,
+    porcentagem_conquista DECIMAL(5,2) NOT NULL DEFAULT 0.00,
     FOREIGN KEY (id_consumidor) REFERENCES consumidor(id_consumidor),
     FOREIGN KEY (id_jogo) REFERENCES jogo(id_jogo),
     FOREIGN KEY (id_metodo_pagamento) REFERENCES metodo_pagamento(id_metodo_pagamento)
@@ -112,8 +114,10 @@ CREATE TABLE jogo_comprado (
 
 CREATE TABLE conquista (
     id_conquista INT PRIMARY KEY,
+    id_jogo INT NOT NULL,
     nome VARCHAR(200) NOT NULL,
-    descricao TEXT
+    descricao TEXT,
+    FOREIGN KEY (id_jogo) REFERENCES jogo(id_jogo)
 );
 
 CREATE TABLE jogo_comprado_conquista (
@@ -153,6 +157,14 @@ CREATE TABLE amizade (
     PRIMARY KEY (id_usuario1, id_usuario2),
     FOREIGN KEY (id_usuario1) REFERENCES usuario(id_usuario),
     FOREIGN KEY (id_usuario2) REFERENCES usuario(id_usuario)
+);
+
+CREATE TABLE carrinho_compras (
+    id_consumidor INT NOT NULL UNIQUE,
+    id_jogo INT NOT NULL,
+    PRIMARY KEY (id_consumidor, id_jogo),
+    FOREIGN KEY (id_consumidor) REFERENCES consumidor(id_consumidor),
+    FOREIGN KEY (id_jogo) REFERENCES jogo(id_jogo)
 );
 
 --Tá certo isso aqui? Não seria em conjunto com a tabela de Publicadora?
