@@ -10,7 +10,7 @@ var resetFocus := true
 ##Possíveis animacoes: [br][br]Diamond[br]Circle[br]CircleToon[br]Fade[br]
 func changeSceneTo(scene : PackedScene, animacao1 : String = "Diamond", animacao2: String = "Diamond"):
 	await Cortina.preencheTela(true, animacao1)
-	get_tree().change_scene_to_packed(scene)
+	get_tree().call_deferred("change_scene_to_packed", scene)
 	Cortina.preencheTela(false, animacao2)
 	if resetFocus:
 		Cortina._setFocus(Vector2(0.5, 0.5))

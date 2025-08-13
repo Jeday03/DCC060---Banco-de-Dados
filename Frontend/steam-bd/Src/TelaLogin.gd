@@ -1,13 +1,13 @@
-extends VBoxContainer
+extends Control
 
-const TELA_REGISTRO = preload("uid://tq1ftj6i44qk")
+const TELA_REGISTRO = preload("res://Paginas/TelaRegistro.tscn")
 const APLICACAO = preload("uid://bvqec7yaqmxpy")
 
 const url = "http://127.0.0.1:5000/consumer-login"
 
-@onready var email: LineEdit = $LineEdit
-@onready var senha: LineEdit = $LineEdit2
-@onready var msg: Label = $msg
+@onready var email: LineEdit = $VBoxContainer/LineEdit
+@onready var senha: LineEdit = $VBoxContainer/LineEdit2
+@onready var msg: Label = $VBoxContainer/msg
 
 func registrar_pressed() -> void:
 	SceneController.changeSceneTo(TELA_REGISTRO, "Diamond", "Diamond")

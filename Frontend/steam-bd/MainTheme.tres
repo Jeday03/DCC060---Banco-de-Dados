@@ -3,7 +3,7 @@
 [ext_resource type="FontFile" uid="uid://dectpox5oqu1v" path="res://Fontes/CABRISA.otf" id="1_4as0w"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8s18r"]
-bg_color = Color(0.1925, 0.49087495, 0.77, 1)
+bg_color = Color(0.1925, 0.490875, 0.77, 1)
 corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
@@ -14,7 +14,7 @@ content_margin_left = 40.0
 content_margin_top = 20.0
 content_margin_right = 40.0
 content_margin_bottom = 20.0
-bg_color = Color(0.1025, 0.26137498, 0.41, 1)
+bg_color = Color(0.1025, 0.261375, 0.41, 1)
 corner_radius_top_left = 20
 corner_radius_top_right = 20
 
@@ -23,7 +23,7 @@ content_margin_left = 40.0
 content_margin_top = 20.0
 content_margin_right = 40.0
 content_margin_bottom = 20.0
-bg_color = Color(0.1925, 0.49087495, 0.77, 1)
+bg_color = Color(0.1925, 0.490875, 0.77, 1)
 corner_radius_top_left = 20
 corner_radius_top_right = 20
 
@@ -32,7 +32,7 @@ content_margin_left = 40.0
 content_margin_top = 20.0
 content_margin_right = 40.0
 content_margin_bottom = 20.0
-bg_color = Color(0.1025, 0.26137498, 0.41, 1)
+bg_color = Color(0.1025, 0.261375, 0.41, 1)
 corner_radius_top_left = 20
 corner_radius_top_right = 20
 

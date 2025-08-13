@@ -126,7 +126,7 @@ text = "Registrar"
 [node name="BoaMensagem" type="Label" parent="Panel/HBoxContainer/VBoxContainer"]
 visible = false
 layout_mode = 2
-theme_override_colors/font_color = Color(0.01666665, 1, 0, 1)
+theme_override_colors/font_color = Color(0.0166667, 1, 0, 1)
 text = "Cadastrado!"
 horizontal_alignment = 1
 

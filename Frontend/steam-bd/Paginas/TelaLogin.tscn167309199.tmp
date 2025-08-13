@@ -59,13 +59,3 @@ text = "Registrar"
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Logar"
-
-[node name="msg" type="Label" parent="VBoxContainer"]
-visible = false
-layout_mode = 2
-theme_override_colors/font_color = Color(0.74, 0, 0, 1)
-text = "Algo deu errado! Tente novamente"
-horizontal_alignment = 1
-
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/Button" to="." method="registrar_pressed"]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/Button2" to="." method="login_pressed"]

@@ -1,6 +1,7 @@
 extends VBoxContainer
 
-const TELA_LOGIN = preload("uid://duh5maitd0kw2")
+const TELA_LOGIN = preload("res://Paginas/TelaLogin.tscn")
+
 @onready var email: LineEdit = $LineEdit
 @onready var senha: LineEdit = $LineEdit2
 @onready var senha2: LineEdit = $LineEdit3
@@ -17,7 +18,7 @@ func _ready() -> void:
 	print("Tela login eh ", TELA_LOGIN)
 
 func voltar_pressed() -> void:
-	get_tree().change_scene_to_packed(TELA_LOGIN)
+	get_tree().call_deferred("change_scene_to_file", "res://Paginas/TelaLogin.tscn")
 
 func cadastro_pressed() -> void:
 	boa_mensagem.visible = false
