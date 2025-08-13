@@ -282,6 +282,206 @@ def get_multiple_games():
         return jsonify(result)
 
 # ===========================
+# Retorna todos os amigos de um usuário
+# ===========================
+@app.get("/users/<int:id_usuario>/friends")
+def get_user_friends(id_usuario):
+    with pool.connection() as conn, conn.cursor() as cur:
+        # Primeiro verifica se o usuário existe
+        cur.execute("SELECT 1 FROM usuario WHERE id_usuario = %s;", (id_usuario,))
+        if not cur.fetchone():
+            return jsonify({"error": "Usuário não encontrado"}), 404
+        
+        cur.execute("""
+            SELECT DISTINCT u_amigo.id_usuario, u_amigo.nome, u_amigo.nickname
+            FROM amizade a
+            -- Busca amigos em ambas as direções da tabela amizade
+            JOIN usuario u_amigo ON (
+                (a.id_usuario1 = %s AND u_amigo.id_usuario = a.id_usuario2) OR 
+                (a.id_usuario2 = %s AND u_amigo.id_usuario = a.id_usuario1)
+            )
+            JOIN pais p ON p.id_pais = u_amigo.id_pais
+            ORDER BY u_amigo.nickname;
+        """, (id_usuario, id_usuario))
+        
+        rows = cur.fetchall()
+        cols = [d[0] for d in cur.description]
+        data = [dict(zip(cols, r)) for r in rows]
+        
+        return jsonify(data)
+
+# ===========================
+# Adiciona um amigo usando o nickname
+# ===========================
+@app.post("/users/<int:id_usuario>/friends")
+def add_friend_by_nickname(id_usuario):
+    """
+    Body:
+    {
+      "nickname": "joao123"
+    }
+    """
+    data = request.get_json(force=True)
+    
+    if "nickname" not in data:
+        return jsonify({"error": "Campo 'nickname' é obrigatório"}), 400
+    
+    nickname = data["nickname"].strip()
+    
+    if not nickname:
+        return jsonify({"error": "Nickname não pode estar vazio"}), 400
+
+    with pool.connection() as conn, conn.cursor() as cur:
+        try:
+            # Verifica se o usuário que está adicionando existe
+            cur.execute("SELECT nickname FROM usuario WHERE id_usuario = %s;", (id_usuario,))
+            user_result = cur.fetchone()
+            if not user_result:
+                return jsonify({"error": "Usuário não encontrado"}), 404
+            
+            # Verifica se não está tentando adicionar a si mesmo
+            if user_result[0] == nickname:
+                return jsonify({"error": "Você não pode adicionar a si mesmo como amigo"}), 400
+
+            # Busca o usuário pelo nickname
+            cur.execute("""
+                SELECT id_usuario, nickname, nome 
+                FROM usuario 
+                WHERE nickname = %s;
+            """, (nickname,))
+            friend_result = cur.fetchone()
+            
+            if not friend_result:
+                return jsonify({"error": f"Usuário com nickname '{nickname}' não encontrado"}), 404
+            
+            id_amigo, friend_nickname, friend_name = friend_result
+
+            # Verifica se já são amigos (em qualquer direção)
+            cur.execute("""
+                SELECT 1 FROM amizade 
+                WHERE (id_usuario1 = %s AND id_usuario2 = %s) 
+                   OR (id_usuario1 = %s AND id_usuario2 = %s);
+            """, (id_usuario, id_amigo, id_amigo, id_usuario))
+            
+            if cur.fetchone():
+                return jsonify({"error": f"Você já é amigo de {friend_nickname}"}), 409
+
+            # Adiciona a amizade (sempre coloca o menor ID primeiro para padronizar)
+            id1, id2 = (id_usuario, id_amigo) if id_usuario < id_amigo else (id_amigo, id_usuario)
+            
+            cur.execute("""
+                INSERT INTO amizade (id_usuario1, id_usuario2)
+                VALUES (%s, %s);
+            """, (id1, id2))
+
+            conn.commit()
+            
+            return jsonify({
+                "message": f"Amizade com {friend_nickname} adicionada com sucesso!",
+                "friend": {
+                    "id_usuario": id_amigo,
+                    "nickname": friend_nickname,
+                    "nome": friend_name
+                }
+            }), 201
+
+        except Exception as e:
+            conn.rollback()
+            return jsonify({"error": str(e)}), 400
+
+# ===========================
+# Adiciona múltiplos jogos a um consumidor (sem método de pagamento)
+# ===========================
+@app.post("/users/<int:id_usuario>/games/bulk")
+def add_games_to_user(id_usuario):
+    """
+    Body:
+    {
+      "jogos": [1, 2, 3, 4, 5]
+    }
+    """
+    data = request.get_json(force=True)
+    
+    if "jogos" not in data or not isinstance(data["jogos"], list):
+        return jsonify({"error": "Campo 'jogos' deve ser uma lista de IDs"}), 400
+    
+    game_ids = data["jogos"]
+    
+    if not game_ids:
+        return jsonify({"error": "Lista de jogos não pode estar vazia"}), 400
+    
+    if len(game_ids) > 100:  # Limite razoável
+        return jsonify({"error": "Máximo de 100 jogos por vez"}), 400
+
+    with pool.connection() as conn, conn.cursor() as cur:
+        try:
+            # Verifica se o usuário é consumidor
+            cur.execute("""
+                SELECT c.id_consumidor
+                FROM consumidor c JOIN usuario u ON u.id_usuario = c.id_usuario
+                WHERE u.id_usuario = %s;
+            """, (id_usuario,))
+            r = cur.fetchone()
+            if not r:
+                return jsonify({"error": "Usuário não é consumidor"}), 404
+            id_consumidor = r[0]
+
+            # Valida se todos os jogos existem
+            cur.execute("""
+                SELECT id_jogo FROM jogo WHERE id_jogo = ANY(%s);
+            """, (game_ids,))
+            existing_games = [row[0] for row in cur.fetchall()]
+            invalid_games = [gid for gid in game_ids if gid not in existing_games]
+            
+            if invalid_games:
+                return jsonify({"error": f"Jogos não encontrados: {invalid_games}"}), 400
+
+            # Verifica quais jogos o usuário já possui
+            cur.execute("""
+                SELECT id_jogo FROM jogo_comprado 
+                WHERE id_consumidor = %s AND id_jogo = ANY(%s);
+            """, (id_consumidor, game_ids))
+            already_owned = [row[0] for row in cur.fetchall()]
+            
+            # Filtra apenas jogos que o usuário não possui
+            new_games = [gid for gid in game_ids if gid not in already_owned]
+            
+            if not new_games:
+                return jsonify({
+                    "message": "Todos os jogos já pertencem ao usuário",
+                    "already_owned": already_owned
+                }), 200
+
+            # Insere os novos jogos (sem método de pagamento)
+            success_games = []
+            for game_id in new_games:
+                cur.execute("""
+                    INSERT INTO jogo_comprado (id_consumidor, id_jogo, data_compra, id_metodo_pagamento)
+                    VALUES (%s, %s, CURRENT_DATE, 1)
+                    RETURNING id_jogo_comprado, id_jogo;
+                """, (id_consumidor, game_id))
+                result = cur.fetchone()
+                success_games.append({
+                    "id_jogo_comprado": result[0],
+                    "id_jogo": result[1]
+                })
+
+            conn.commit()
+            
+            return jsonify({
+                "message": f"{len(success_games)} jogos adicionados com sucesso",
+                "added_games": success_games,
+                "already_owned": already_owned,
+                "total_requested": len(game_ids),
+                "total_added": len(success_games)
+            }), 201
+
+        except Exception as e:
+            conn.rollback()
+            return jsonify({"error": str(e)}), 400
+
+
+# ===========================
 # Retorna todos os jogos comprados por um determinado usuário (se for consumidor)
 # ===========================
 @app.get("/users/<int:id_usuario>/purchases")

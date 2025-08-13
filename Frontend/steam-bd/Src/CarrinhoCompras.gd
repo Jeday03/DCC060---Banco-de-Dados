@@ -10,7 +10,9 @@ func adicionar(id):
 
 func remover(id):
 	listaIds.erase(id)
+	alterouLista.emit(listaIds.size())
+
 
 func finalizarCompra():
-	
-	pass
+	listaIds.clear()
+	alterouLista.emit(0)

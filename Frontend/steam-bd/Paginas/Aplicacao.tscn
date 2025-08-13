@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bvqec7yaqmxpy"]
+[gd_scene load_steps=11 format=3 uid="uid://bvqec7yaqmxpy"]
 
 [ext_resource type="Theme" uid="uid://ddyultgdawo4w" path="res://MainTheme.tres" id="1_7aqto"]
 [ext_resource type="Theme" uid="uid://dq5r5v3vdfy3j" path="res://SecondTheme.tres" id="2_i6r1v"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://cl5lpjhbq568d" path="res://Src/CarrinhoUI.gd" id="5_oynkd"]
 [ext_resource type="PackedScene" uid="uid://cenb451jnm8np" path="res://Paginas/Subpaginas/sistema_de_compra.tscn" id="6_54tox"]
 [ext_resource type="PackedScene" uid="uid://djftmrhmcn3hc" path="res://Paginas/Subpaginas/pagina_jogo.tscn" id="8_24qr2"]
+[ext_resource type="Script" uid="uid://bgn855iukrmv8" path="res://Src/PaginaAmigo.gd" id="8_oynkd"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4wtlq"]
 content_margin_left = 0.0
@@ -14,6 +15,18 @@ content_margin_top = 0.0
 content_margin_right = 0.0
 content_margin_bottom = 0.0
 bg_color = Color(0.101960786, 0.2627451, 0.4117647, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_24qr2"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.09803922, 0.16470589, 0.22352941, 1)
 corner_radius_top_left = 3
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
@@ -143,6 +156,7 @@ layout_mode = 2
 text = "Carrinho"
 
 [node name="SistemaDeCompra" parent="TabContainer/Loja" instance=ExtResource("6_54tox")]
+visible = false
 layout_mode = 1
 
 [node name="PaginaJogo" parent="TabContainer/Loja" instance=ExtResource("8_24qr2")]
@@ -168,7 +182,62 @@ metadata/_tab_index = 1
 [node name="Amigos" type="Panel" parent="TabContainer/Perfil"]
 visible = false
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_24qr2")
+script = ExtResource("8_oynkd")
 metadata/_tab_index = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Perfil/Amigos"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Perfil/Amigos/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Control" type="Control" parent="TabContainer/Perfil/Amigos/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+
+[node name="LineEdit" type="LineEdit" parent="TabContainer/Perfil/Amigos/MarginContainer/VBoxContainer/Control"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 31.0
+grow_horizontal = 2
+placeholder_text = "Escreva aqui o nickname do usuário"
+
+[node name="Button" type="Button" parent="TabContainer/Perfil/Amigos/MarginContainer/VBoxContainer/Control"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = -8.0
+offset_right = 4.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Adicionar amigo"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="TabContainer/Perfil/Amigos/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Perfil/Amigos/MarginContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 14
 
 [connection signal="draw" from="TabContainer/Loja/LojaPrincipal/PrincipalTab/Principal" to="TabContainer/Loja/LojaPrincipal/PrincipalTab/Principal" method="_on_draw"]
 [connection signal="draw" from="TabContainer/Loja/LojaPrincipal/PrincipalTab/Dos Amigos" to="TabContainer/Loja/LojaPrincipal/PrincipalTab/Dos Amigos" method="_on_draw"]
+[connection signal="pressed" from="TabContainer/Loja/LojaPrincipal/HBoxContainer/Button" to="TabContainer/Loja/LojaPrincipal/HBoxContainer" method="pagar_compra"]
+[connection signal="pressed" from="TabContainer/Perfil/Amigos/MarginContainer/VBoxContainer/Control/Button" to="TabContainer/Perfil/Amigos" method="adicionar_amigo_pressed"]

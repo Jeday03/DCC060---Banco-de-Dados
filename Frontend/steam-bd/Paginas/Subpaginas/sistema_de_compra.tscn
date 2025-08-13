@@ -47,6 +47,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_78a7v")
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1
@@ -68,7 +69,6 @@ theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
-script = ExtResource("1_78a7v")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
 layout_mode = 2
@@ -143,3 +143,32 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Finalizar Compra"
+
+[node name="Label3" type="Label" parent="MarginContainer/HBoxContainer/Panel2/VBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0.26049995, 1, 0.13, 1)
+theme_override_fonts/font = ExtResource("1_d0inf")
+theme_override_font_sizes/font_size = 24
+text = "Compra finalizada"
+horizontal_alignment = 1
+
+[node name="Label4" type="Label" parent="MarginContainer/HBoxContainer/Panel2/VBoxContainer"]
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.13, 0.13, 1)
+theme_override_fonts/font = ExtResource("1_d0inf")
+theme_override_font_sizes/font_size = 24
+text = "Tente novamente!"
+horizontal_alignment = 1
+
+[node name="Button2" type="Button" parent="MarginContainer/HBoxContainer/Panel2/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Voltar"
+
+[connection signal="pressed" from="MarginContainer/HBoxContainer/Panel2/VBoxContainer/Button" to="." method="terminar_compra_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/Panel2/VBoxContainer/Button" to="MarginContainer" method="terminar_compra_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/Panel2/VBoxContainer/Button2" to="." method="voltar_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/Panel2/VBoxContainer/Button2" to="MarginContainer" method="voltar_pressed"]
