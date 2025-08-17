@@ -13,6 +13,8 @@ func _draw() -> void:
 	NetworkManager.make_request(url, drawAmigos, HTTPClient.METHOD_GET, [], '')
 
 func drawAmigos(result, code, headers, body):
+	for c in amigoContainer.get_children():
+		c.queue_free()
 	var data = NetworkManager.returnData(body)
 	for a in data:
 		var p : PanelAmigo = PANEL_AMIGO.instantiate() as PanelAmigo
